@@ -105,7 +105,8 @@ further.
 
 ### General Application Troubleshooting Tips
 
-First investigate if there has been any resent changes or updates to the installed software
+First investigate if there has been any recent changes or updates to the
+installed software:
 
 ```
 tail /var/log/yum.log
@@ -372,8 +373,8 @@ kernel bug. This is merely indicating that a certain process was not
 proceeding as expected at that time and as such can be considered as a
 warning if everything still works later on as expected.
 
-There can be several reasons for seeing these messages: storage
-issues, the system or the hypervisor being under extreme load leading to
+There can be several reasons for seeing these messages: storage issues,
+the system or the hypervisor being under extreme load leading to
 resource starvation, or there might be a kernel bug causing the issue.
 
 When encountering these messages, it is a good idea to check
@@ -513,13 +514,25 @@ full netconsole information.
 Generic tips about debugging networking issues are available at
 https://access.redhat.com/articles/1311173.
 
-A general port connection test was in the past usually performed with the `telnet` command. But now days telnet is not installed by default. To avoid having to install `telnet` it is possible to use `curl`, that is almost always installed by default, especially in containers you would almost always find `curl` installed. To perform connection tests to specific ports:
+A general port connection test was in the past usually performed with
+the [telnet(1)](https://www.mankier.com/1/telnet) command. But nowadays
+telnet is usually not installed by default on most systems. To avoid
+having to install telnet it is possible to use
+[curl(1)](http://man7.org/linux/man-pages/man1/curl.1.html) instead,
+that is almost always installed by default, also in containers. To
+perform connection tests to a specific port do:
 
 ```
 curl telnet://<hostname>:<port>
 ```
 
-Observing errors like "Destination unreachable (Host unreachable)" in a `tcpdump` could mean that there are ARP issues on the network. Historically the ARP cache could be displayed with the `arp` command, but nowdays it is prefered to use the `ip` command:
+Errors like "Destination unreachable (Host unreachable)" could mean
+either a firewall preventing access or that there are
+[ARP](https://en.wikipedia.org/wiki/Address_Resolution_Protocol) issues
+on the network. Historically the ARP cache could be displayed with the
+[arp(8)](http://man7.org/linux/man-pages/man8/arp.8.html) command but
+nowadays it is prefered to use the
+[ip(8)](http://man7.org/linux/man-pages/man8/ip.8.html) command:
 
 ```
 ip neigh
