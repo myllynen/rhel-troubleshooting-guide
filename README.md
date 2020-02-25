@@ -105,7 +105,13 @@ further.
 
 ### General Application Troubleshooting Tips
 
-First investigate the application configuration (and make sure what is
+First investigate if there has been any resent changes or updates to the installed software
+
+```
+tail /var/log/yum.log
+```
+
+Then investigate the application configuration (and make sure what is
 currently in the configuration file is actually in use by the running
 application process).
 
@@ -506,6 +512,18 @@ full netconsole information.
 
 Generic tips about debugging networking issues are available at
 https://access.redhat.com/articles/1311173.
+
+A general port connection test was in the past usually performed with the `telnet` command. But now days telnet is not installed by default. To avoid having to install `telnet` it is possible to use `curl`, that is almost always installed by default, especially in containers you would almost always find `curl` installed. To perform connection tests to specific ports:
+
+```
+curl telnet://<hostname>:<port>
+```
+
+Observing errors like "Destination unreachable (Host unreachable)" in a `tcpdump` could mean that there are ARP issues on the network. Historically the ARP cache could be displayed with the `arp` command, but nowdays it is prefered to use the `ip` command:
+
+```
+ip neigh
+```
 
 If network switch and other such issues have been ruled out and it looks
 like the issue might be RHEL related, try narrowing down the cause as
