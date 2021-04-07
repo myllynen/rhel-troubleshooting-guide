@@ -208,7 +208,7 @@ If you have enabled the free Red Hat Insights service, comparing systems [can be
 
 Red Hat Insights compares a number of different informations between two systems, including installed packages, kernel modules, tuning, hardware and more.
 
-![Insights](/images/insights-drft.png)
+![Insights](images/insights-drft.png)
 
 ### Reviewing changes made by users
 
