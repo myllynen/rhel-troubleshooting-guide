@@ -92,7 +92,7 @@ $(pidof chronyd)`, this ought to trigger core dump creation when
 enabled.)
 
 If an application has not crashed but is misbehaving or not responding,
-check its all logs. Make sure there are no firewalls or recent network
+check all its logs. Make sure there are no firewalls or recent network
 configurations preventing access to it. Try to definitively identify the
 application with issues first as a higher level application could be
 affected by issues of a lower level application.
