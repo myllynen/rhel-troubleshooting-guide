@@ -11,12 +11,15 @@ troubleshooting on bare metal and virtualization platforms like
 /
 [RHHI](https://www.redhat.com/en/technologies/storage/hyperconverged-infrastructure).
 
-For further help with [Red Hat](https://www.redhat.com) products and
-technologies be sure to contact [Red Hat
-Support](https://www.redhat.com/en/services/support) using the official
-channels and visit [Red Hat Customer Portal](https://access.redhat.com/)
-which features a large collection of [Red Hat Knowledge
-Base](https://access.redhat.com/knowledgebase) articles and solutions.
+For further help with [Red Hat](https://www.redhat.com)
+[products](https://www.redhat.com/en/technologies/all-products) and
+[technologies](https://www.redhat.com/en/technologies) be sure to
+contact [Red Hat Support](https://www.redhat.com/en/services/support)
+using the official channels and visit
+[Red Hat Customer Portal](https://access.redhat.com/)
+which features a large collection of
+[Red Hat Knowledge Base](https://access.redhat.com/knowledgebase)
+articles and solutions.
 
 ## Basic System Level Sanity Checking
 
