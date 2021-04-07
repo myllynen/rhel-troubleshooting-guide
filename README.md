@@ -25,7 +25,7 @@ articles and solutions.
 
 Check the recent lines of
 [dmesg(1)](http://man7.org/linux/man-pages/man1/dmesg.1.html) output to
-make sure there has not been any (virtual) hardware, driver, or kernel
+make sure there have not been any (virtual) hardware, driver, or kernel
 internal issues (like filesystem or storage errors) reported. In case of
 hardware issues, please investigate the (virtual) hardware platform side
 in more detail. Kernel filesystem issues are often symptoms of lower
@@ -41,7 +41,7 @@ Check the system status in general with
 no unexpected processes are running or eating all CPU cycles and that
 there is no notable IO wait. High IO wait might indicate storage issues
 which cause the system to slowdown in general. Also note the system
-uptime so that there has not been any unexpected reboots recently (due
+uptime so that there have not been any unexpected reboots recently (due
 to manual intervention or a kernel crash).
 
 ```
@@ -53,6 +53,7 @@ been reported recently. There might also be information about crashed
 processes which would indicate application level issues.
 
 ```
+journalctl -l -b | less
 less /var/log/messages
 less /var/log/secure
 ```
@@ -76,9 +77,9 @@ with
 
 ## Basic Application Level Sanity Checking
 
-As mentioned above, `/var/log/messages` might contain traces of
-application crashes which should be investigated further. If a crash is
-in a RHEL component, please contact [Red Hat
+As mentioned above, system logs might contain traces of application
+crashes which should be investigated further. If a crash is in a RHEL
+component, please contact [Red Hat
 Support](https://www.redhat.com/en/services/support) but please keep in
 mind that root cause analysis (RCA) and fixing the issue might be
 impossible without the corresponding application core dump. In case core
@@ -86,12 +87,12 @@ dumps are disabled, please refer to [Red Hat
 documentation](https://access.redhat.com/solutions/56021) on how to
 enable core dumps before reproducing the issue with core dumps enabled.
 (An easy way to test whether core dumps are enabled is to send the SEGV
-signal to a running (non-critical) process, for example `kill -SEGV
+signal to a running (non-critical!) process, for example `kill -SEGV
 $(pidof chronyd)`, this ought to trigger core dump creation when
 enabled.)
 
 If an application has not crashed but is misbehaving or not responding,
-check its logs. Make sure there are no firewalls or recent network
+check its all logs. Make sure there are no firewalls or recent network
 configurations preventing access to it. Try to definitively identify the
 application with issues first as a higher level application could be
 affected by issues of a lower level application.
@@ -112,17 +113,18 @@ First investigate if there has been any recent changes or updates to the
 installed software:
 
 ```
+tail /var/log/dnf.log
 tail /var/log/yum.log
 ```
 
 Then investigate the application configuration (and make sure what is
-currently in the configuration file is actually in use by the running
-application process).
+currently configured in the configuration files is actually in use by
+the running application process).
 
 To see the files changed since installation (from RPM), use:
 
 ```
-rpm -V <app-pkg1> <app-pkg2>
+rpm -V PKG1 PKG2
 ```
 
 If the application is logging at least parts of its activities to the
@@ -141,7 +143,7 @@ during its execution it is possible to find out the changed files with:
 ```
 touch /tmp/ts
 /path/to/app --test
-find / -xdev -newer /tmp/ts -print | sort
+find / -newer /tmp/ts -print 2> /dev/null | grep -Ev '^/(proc|sys)' | sort
 ```
 
 Sometimes it is also helpful to see what (configuration) files the
@@ -162,11 +164,11 @@ strace -ff /path/to/app --test 2>&1 | grep 192.168.122.100
 
 While the above can be used as a quick test and might give some hints,
 for real network related troubleshooting it is of course better to use
-[tcpdump(8)](https://www.mankier.com/8/tcpdump).
+[tcpdump(8)](https://man7.org/linux/man-pages/man8/tcpdump.8.html).
 
 ## Checking Changes in Packages
 
-Sometimes it is helpful to check what changes has been introduced in
+Sometimes it is helpful to check what changes have been introduced in
 newer (Red Hat) RPM packages.
 
 One option to consider is using the yum security plugin for security
@@ -174,7 +176,7 @@ related fixes, see https://access.redhat.com/solutions/10021. Another
 quick way to see fixed issues and CVEs is to check the RPM changelog:
 
 ```
-rpm -q --changelog <package-name> | less
+rpm -q --changelog PKG | less
 ```
 
 This often already gives enough information but more detailed list of
@@ -205,7 +207,7 @@ Occasionally pre/post scripts of (3rd party) packages cause surprises,
 they can be inspected with:
 
 ```
-rpm -q --scripts <package-name>
+rpm -q --scripts PKG
 ```
 
 ## Understanding System Memory Usage
@@ -227,7 +229,7 @@ On the surface it might look like the system has only half of its memory
 free for applications (8582M out of 15921M). This is, of course, not the
 case here. As the rightmost column shows, the available memory when
 excluding buffers/cache is 10650M. This memory use for buffers/cache is
-perfectly normal and a good thing; when the kernel uses otherwise unused
+perfectly normal and a good thing. When the kernel uses otherwise unused
 memory (that is, applications are not using that much memory currently)
 for buffering block device data and caching filesystem contents, it
 means that there will be less physical disk operations needed if and
@@ -236,23 +238,24 @@ some point applications request more memory than is currently free due
 to buffering and caching the kernel will automatically and transparently
 free up some previously used buffer/cache memory for applications. Thus
 there should be no efforts by administrators to avoid kernel buffering
-and caching.
+and caching altogether.
 
 For some related details, see
 https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=34e431b0ae398fc54ea69ff85ec700722c9da773.
 
-While buffering and caching is a good thing swapping often is not and
-extreme swapping can render a system almost completely unresponsive.
-However, the most important swapping metric is swapping activity, that
-is, how much pages are being swapped in and out, not the plain amount of
-swap currently in use. There might be a portion of swap in use at any
-given time but if there is no constant swapping activity then this swap
-usage is a merely a sign that there has been a memory pressure situation
-in the past and the kernel has swapped out some idle pages/processes to
-make room for actively running applications. Since all modern operating
-systems use demand paging the swapped out pages are not proactively
-swapped back in until there is a real need for them so swap may remain
-long used after a memory pressure situation.
+While buffering and caching is a good thing swapping constant is not and
+extreme swapping can render the system almost completely unresponsive.
+The most important swapping metric is swapping activity, that is, how
+much pages are being swapped in and out, not the plain amount of swap
+currently in use. There might be a portion of swap in use at any given
+time but if there is no constant swapping activity then this swap usage
+is a merely a sign that there has been a memory pressure situation in
+the past and the kernel has swapped out some idle pages/processes to
+make room for actively running applications or perhaps for buffering and
+caching. Since all modern operating systems use demand paging the
+swapped out pages are not proactively swapped back in until there is a
+real need for them so swap may remain long used after a memory pressure
+situation.
 
 Use `pmrep :sar-W` (with PCP) or `sar -W 1` (with sysstat) to monitor
 swapping activity on a system.
@@ -299,7 +302,7 @@ involved for these investigations (unless it is possible to verify that
 a crash is due to a known issue verified earlier already).
 
 A complete kernel core dump (vmcore) is required for kernel crash RCA,
-without a vmcore it is will be impossible to determine the root cause.
+without a vmcore it is impossible to determine the root cause.
 
 ### Kernel Hang
 
@@ -390,7 +393,8 @@ occurs frequently with no indications of related known issues, Red Hat
 Support can help identifying the root cause. However, a complete vmcore
 will be required, the accompanying stack traces do not necessarily
 contain all the needed information for RCA. First collect a sosreport
-(see below) and then produce vmcore by manually crashing the kernel:
+(see below) and then produce vmcore by manually crashing the kernel when
+these messages are being logged:
 
 ```
 echo 1 > /proc/sys/kernel/sysrq
@@ -403,9 +407,9 @@ echo c > /proc/sysrq-trigger
 When there is an issue which looks like at least potentially or
 partially a RHEL issue (after verifying it cannot be a (virtual)
 hardware issue or a recently emerged misconfiguration), it is crucial
-that all the needed information is collected from the all affected nodes
+that all the needed information is collected from all the affected nodes
 and very much preferably while the issue is still ongoing. Without
-properly collected logs RCA is impossible.
+properly collected logs RCA is most often impossible.
 
 The following command collects a sosreport from a node without asking
 any questions and also captures older logs which may be needed as well:
@@ -418,7 +422,7 @@ In case the command seems to never finish, you must run it manually with
 the problematic plugins disabled. Run `sosreport -v` to see detailed
 progress and to determine the plugin that hangs. Then kill the currently
 running sosreport command and use the above command with the addition of
--v -n <hanging-plugin> parameters to allow sosreport to complete. In
+`-v -n <hanging-plugin>` parameters to allow sosreport to complete. In
 case another plugin hangs as well, repeat the procedure and use a
 comma-separated list to disable all the problematic plugins.
 
@@ -439,9 +443,9 @@ process/system needs to be restarted to get everything back online, it
 might be a good idea to collect application core dump and process stack
 information proactively.
 
-Please note that they may contain sensitive data structures and
-information. Also note that the
-[pstack(1)](https://www.mankier.com/1/pstack) and
+Please note that application core dumps may contain sensitive data
+structures and information subject to privacy regulations. Also note
+that the [pstack(1)](https://www.mankier.com/1/pstack) and
 [gcore(1)](http://man7.org/linux/man-pages/man1/gcore.1.html) utitilies
 used for this are part of the _gdb_ (GNU Debugger) package which may or
 may not be suitable for installation on production systems. The details
@@ -452,25 +456,26 @@ information is as described below.
 Collect process stack information of a live/running/stuck process:
 
 ```
-pstack <pid> > pstack-output.txt
+pstack PID > pstack-output.txt
 ```
 
 Collect core dump of a live/running/stuck process:
 
 ```
-gcore <pid>
+gcore PID
 ```
 
 Collect [strace(1)](http://man7.org/linux/man-pages/man1/strace.1.html)
-of a live/running/stuck process:
+for a while of a live but potentially stuck process:
 
 ```
-strace -ff -s 1024 -p <pid> > strace-output.txt 2>&1
+strace -ff -s 1024 -p PID > strace-output.txt 2>&1
 ```
 
 For any crashed process a core dump is available in case core dumps are
 enabled (but they are is also subject to the same data sensitivity
-considerations as mentioned earlier).
+considerations as mentioned earlier). See
+https://access.redhat.com/solutions/56021 on how to collect core dumps.
 
 ## Collecting Additional Data from a Hung VM
 
@@ -526,7 +531,7 @@ that is almost always installed by default, also in containers. To
 perform connection tests to a specific port do:
 
 ```
-curl telnet://<hostname>:<port>
+curl telnet://HOSTNAME:PORT
 ```
 
 Errors like "Destination unreachable (Host unreachable)" could mean
@@ -550,8 +555,10 @@ on the same/different host makes a difference (if so, investigate the
 network infrastructure level in more detail). Obviously, make sure that
 firewalls at any level are not blocking or dropping traffic. Check
 counters for dropped packets (use
+[ip(8)](http://man7.org/linux/man-pages/man8/ip.8.html),
 [ethtool(8)](http://man7.org/linux/man-pages/man8/ethtool.8.html),
-[iptables(8)](http://man7.org/linux/man-pages/man8/iptables.8.html), and
+[iptables(8)](http://man7.org/linux/man-pages/man8/iptables.8.html),
+[nft(8)](https://www.mankier.com/8/nft), and
 [ss(8)](http://man7.org/linux/man-pages/man8/ss.8.html)). Consider
 disabling/enabling all guest NIC offloading settings and/or increasing
 NIC ring buffer values as possible.
@@ -560,7 +567,8 @@ If in doubt whether an issue is happening on a guest or hypervisor
 level, for complete analysis full packet captures from all levels of the
 infrastructure below guests will be needed. See
 https://access.redhat.com/solutions/4272142 for description how
-[tcpdump(8)](https://www.mankier.com/8/tcpdump) captures packets.
+[tcpdump(8)](https://man7.org/linux/man-pages/man8/tcpdump.8.html)
+captures packets.
 
 ## Additional Information
 
