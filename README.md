@@ -200,7 +200,7 @@ for real network related troubleshooting it is of course better to use
 
 Often a recently made change may be related to the issue at hand. In
 case a centralized configuratiom management system (like [Ansible
-Tower](https://access.redhat.com/products/ansible-tower-red-hat) is in
+Tower](https://access.redhat.com/products/ansible-tower-red-hat)) is in
 use, recent updates to its content should be reviewed. The details of
 configuration management systems are out of scope for this guide but it
 should be kept in mind that local configuration changes may be
