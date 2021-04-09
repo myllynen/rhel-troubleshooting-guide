@@ -15,20 +15,28 @@ For further help with [Red Hat](https://www.redhat.com)
 [products](https://www.redhat.com/en/technologies/all-products) and
 [technologies](https://www.redhat.com/en/technologies) be sure to
 contact [Red Hat Support](https://www.redhat.com/en/services/support)
-using the official channels, for example via: [Red Hat Customer Portal](https://access.redhat.com/).
+using the official channels, like [Red Hat Customer
+Portal](https://access.redhat.com/).
 
-## Checking for known problems
-Often, you are not the first person to encounter a problem, there are a number
-of places where you can find information about known issues for your RHEL systems.
+## Checking for Known Issues
 
-Red Hat Insights, which is included in RHEL, can automatically identify
-over 100 000 known problems and solutions.
+Before spending hours or even days trying to troubleshoot an issue, it
+is a good idea to check for known issues that might affect the
+situation. In fact, best would be to check for these known issues
+proactively to avoid them having an effect in the first place.
 
-Red Hat webpages and services which can help you find known problems includes:
-* [Red Hat Customer Portal](https://access.redhat.com)
+[Red Hat
+Insights](https://www.redhat.com/en/technologies/management/insights) is
+included as part of [RHEL
+subscription](https://access.redhat.com/subscription-value) and can
+automatically identify a large number of known issues and solutions.
+
+Tools and services which can help you to find known issues include:
+
+* [Red Hat Customer Portal](https://access.redhat.com/)
 * [Red Hat Knowledge Base](https://access.redhat.com/knowledgebase)
-* Get started with [Red Hat Insights](https://cloud.redhat.com/insights) at [this webpage](https://access.redhat.com/products/red-hat-insights/#getstarted)
-* [Red Hat Bugzilla](https://bugzilla.redhat.com)
+* [Red Hat Insights](https://access.redhat.com/products/red-hat-insights/)
+* [Red Hat Bugzilla](https://bugzilla.redhat.com/)
 
 ## Basic System Level Sanity Checking
 
@@ -175,66 +183,73 @@ While the above can be used as a quick test and might give some hints,
 for real network related troubleshooting it is of course better to use
 [tcpdump(8)](https://man7.org/linux/man-pages/man8/tcpdump.8.html).
 
-## Detecting changes in your system
-Here's a chapter on detecting if things have changed in your system. When at a loss, it's often a good idea to see if something has changed.
+## Checking Recent Changes in System
 
-### Comparing two different systems
+Often a recently made change may be related to the issue at hand. In
+case a centralized configuratiom management system (like [Ansible
+Tower](https://access.redhat.com/products/ansible-tower-red-hat) is in
+use, recent updates to its content should be reviewed. The details of
+configuration management systems are out of scope for this guide but it
+should be kept in mind that local configuration changes may be
+periodically overwritten by such centralized tools.
 
-If you are in the scenario where one system is showing symptoms but another supposedly identical system is not, it may be a good time to compare the two systems.
-An easy way to compare things on two different systems are by outputting a command run on both systems to compare and then run the diff command to see differences.
+Sometimes it is useful to see if someone has recently logged into to a
+system and review possible changes by them. To see users recently logged
+into the system and the commands they have run:
 
-Example, comparing installed RPMs.
-On system A and B:
 ```
-rpm -qa >$(hostname).rpms
-```
-
-Then compare the installed RPMs by running:
-```
-diff -y system-a.rpms system-b.rpms
-```
-
-This can be done with a wide range of things, such as, kernel runtime parameters:
-```
-sysctl -a >$(hostname).kernelparams
+last
+less ~USERNAME/.bash_history
+journalctl -r _UID=UID
 ```
 
-Checksums representing the content of each and every file in the /etc directory (will also detect missing files):
+Note that a rogue user can easily avoid recording their command history
+in the shell history file and that the local privacy regulations should
+be respected when investigating possible actions by other users. On the
+other hand, in some cases [session
+recordings](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html-single/recording_sessions/index)
+might be mandatory for compliance and regulatory reasons.
+
+Recent local changes made with
+[sudo(8)](https://man7.org/linux/man-pages/man8/sudo.8.html) can be
+investigated with:
+
 ```
-for file in $(sudo find /etc -type f|sort); do sudo md5sum $file >>$(hostname).files; done
+journalctl -r _COMM=sudo | less
 ```
 
-If you have enabled the free Red Hat Insights service, comparing systems [can be done on this webpage](https://cloud.redhat.com/insights/drift).
+To compare two (perhaps supposedly identical) systems there are a few
+ways to see differences between them.
 
-Red Hat Insights compares a number of different informations between two systems, including installed packages, kernel modules, tuning, hardware and more.
+To compare installed packages and their versions across two systems run
+the following command on both:
+
+```
+rpm -qa | sort > $(hostname)-rpms.txt
+```
+
+Then compare the installed packages by running:
+
+```
+diff -u HOST1-rpms.txt HOST2-rpms.txt
+```
+
+[diff(1)](https://man7.org/linux/man-pages/man1/diff.1.html) could be
+used for checking other things like kernel parameters or the contents of
+the /etc directories as well. Use `sysctl -a | sort` to dump current
+kernel parameters and `diff -purN DIR1 DIR2` the compare the contents of
+two directories.
+
+In case using [Red Hat
+Insights](https://access.redhat.com/products/red-hat-insights/),
+comparing systems [can be done using the
+service](https://cloud.redhat.com/insights/drift). Red Hat Insights
+compares a number of different informations between two systems,
+including installed packages, kernel modules, tuning, hardware and more.
 
 ![Insights](images/insights-drift.png)
 
-### Reviewing changes made by users
-
-Sometimes it is useful to see if someone has recently been logged into a system and review if they have done something.
-See when someone has last logged into a system with:
-```
-last
-```
-
-If someone had logged in, they may have left traces of commands run.
-Have a look by running:
-```
-less ~username/.bash_history
-```
-
-Review what commands has been run with sudo, like this:
-```
-journalctl _COMM=sudo | grep COMMAND
-```
-
-Commands can sometimes leave traces in logs as well, review logs produced by a user with:
-```
-journalctl _UID=1008
-```
-
-### Checking Changes in Packages
+### Checking Changes in Package Contents
 
 Sometimes it is helpful to check what changes have been introduced in
 newer (Red Hat) RPM packages.
