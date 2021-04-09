@@ -630,7 +630,7 @@ that is almost always installed by default, also in containers. To
 perform connection tests to a specific port do:
 
 ```
-curl telnet://HOSTNAME:PORT
+curl -v telnet://HOSTNAME:PORT
 ```
 
 Errors like "Destination unreachable (Host unreachable)" could mean
