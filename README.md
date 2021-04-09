@@ -29,7 +29,10 @@ proactively to avoid them having an effect in the first place.
 Insights](https://www.redhat.com/en/technologies/management/insights) is
 included as part of [RHEL
 subscription](https://access.redhat.com/subscription-value) and can
-automatically identify a large number of known issues and solutions.
+automatically identify a large number of known issues and solutions. It
+could perhaps even be
+[integrated](https://www.redhat.com/en/blog/integrating-monitoring-system-red-hat-insights)
+with a monitoring solution.
 
 Tools and services which can help you to find known issues include:
 
