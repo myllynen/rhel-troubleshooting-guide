@@ -40,6 +40,18 @@ Tools and services which can help you to find known issues include:
 
 ## Basic System Level Sanity Checking
 
+Initially it is a good idea to quickly verify that the system (virtual)
+hardware setup is as expected: the number of processors, the amount of
+memory, the disk and file system layout, and the network devices. Use
+the following commands to see how the system basics looks like:
+
+```
+lscpu
+lsmem
+lsblk
+ip a
+```
+
 Check the recent lines of
 [dmesg(1)](http://man7.org/linux/man-pages/man1/dmesg.1.html) output to
 make sure there have not been any (virtual) hardware, driver, or kernel
@@ -130,6 +142,7 @@ First investigate if there has been any recent changes or updates to the
 installed software:
 
 ```
+rpm -qa --last | less
 tail /var/log/dnf.log
 tail /var/log/yum.log
 ```
