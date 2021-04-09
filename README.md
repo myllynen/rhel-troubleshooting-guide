@@ -15,11 +15,20 @@ For further help with [Red Hat](https://www.redhat.com)
 [products](https://www.redhat.com/en/technologies/all-products) and
 [technologies](https://www.redhat.com/en/technologies) be sure to
 contact [Red Hat Support](https://www.redhat.com/en/services/support)
-using the official channels and visit
-[Red Hat Customer Portal](https://access.redhat.com/)
-which features a large collection of
-[Red Hat Knowledge Base](https://access.redhat.com/knowledgebase)
-articles and solutions.
+using the official channels, for example via: [Red Hat Customer Portal](https://access.redhat.com/).
+
+## Checking for known problems
+Often, you are not the first person to encounter a problem, there are a number
+of places where you can find information about known issues for your RHEL systems.
+
+Red Hat Insights, which is included in RHEL, can automatically identify
+over 100 000 known problems and solutions.
+
+Red Hat webpages and services which can help you find known problems includes:
+* [Red Hat Customer Portal](https://access.redhat.com)
+* [Red Hat Knowledge Base](https://access.redhat.com/knowledgebase)
+* Get started with [Red Hat Insights](https://cloud.redhat.com/insights) at [this webpage](https://access.redhat.com/products/red-hat-insights/#getstarted)
+* [Red Hat Bugzilla](https://bugzilla.redhat.com)
 
 ## Basic System Level Sanity Checking
 
@@ -166,7 +175,66 @@ While the above can be used as a quick test and might give some hints,
 for real network related troubleshooting it is of course better to use
 [tcpdump(8)](https://man7.org/linux/man-pages/man8/tcpdump.8.html).
 
-## Checking Changes in Packages
+## Detecting changes in your system
+Here's a chapter on detecting if things have changed in your system. When at a loss, it's often a good idea to see if something has changed.
+
+### Comparing two different systems
+
+If you are in the scenario where one system is showing symptoms but another supposedly identical system is not, it may be a good time to compare the two systems.
+An easy way to compare things on two different systems are by outputting a command run on both systems to compare and then run the diff command to see differences.
+
+Example, comparing installed RPMs.
+On system A and B:
+```
+rpm -qa >$(hostname).rpms
+```
+
+Then compare the installed RPMs by running:
+```
+diff -y system-a.rpms system-b.rpms
+```
+
+This can be done with a wide range of things, such as, kernel runtime parameters:
+```
+sysctl -a >$(hostname).kernelparams
+```
+
+Checksums representing the content of each and every file in the /etc directory (will also detect missing files):
+```
+for file in $(sudo find /etc -type f|sort); do sudo md5sum $file >>$(hostname).files; done
+```
+
+If you have enabled the free Red Hat Insights service, comparing systems [can be done on this webpage](https://cloud.redhat.com/insights/drift).
+
+Red Hat Insights compares a number of different informations between two systems, including installed packages, kernel modules, tuning, hardware and more.
+
+![Insights](images/insights-drift.png)
+
+### Reviewing changes made by users
+
+Sometimes it is useful to see if someone has recently been logged into a system and review if they have done something.
+See when someone has last logged into a system with:
+```
+last
+```
+
+If someone had logged in, they may have left traces of commands run.
+Have a look by running:
+```
+less ~username/.bash_history
+```
+
+Review what commands has been run with sudo, like this:
+```
+journalctl _COMM=sudo | grep COMMAND
+```
+
+Commands can sometimes leave traces in logs as well, review logs produced by a user with:
+```
+journalctl _UID=1008
+```
+
+### Checking Changes in Packages
 
 Sometimes it is helpful to check what changes have been introduced in
 newer (Red Hat) RPM packages.
