@@ -80,6 +80,15 @@ to manual intervention or a kernel crash).
 top
 ```
 
+Use [execsnoop(8)](https://www.mankier.com/8/execsnoop) (from the
+_bcc-tools_ package) to verify that no large amount of short-lived
+processes are being run constantly. Such processes would often not show
+up in [top(1)](http://man7.org/linux/man-pages/man1/top.1.html).
+
+```
+/usr/share/bcc/tools/execsnoop
+```
+
 Check the recent messages in system logs to see if anything unusual has
 been reported recently. There might also be information about crashed
 processes which would indicate application level issues.
