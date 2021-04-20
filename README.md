@@ -223,7 +223,7 @@ system and review possible changes by them. To see users recently logged
 into the system and the commands they have run:
 
 ```
-last
+last -F
 less ~USERNAME/.bash_history
 journalctl -r _UID=UID
 ```
@@ -351,19 +351,19 @@ and caching altogether.
 For some related details, see
 https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=34e431b0ae398fc54ea69ff85ec700722c9da773.
 
-While buffering and caching is a good thing swapping constant is not and
+While buffering and caching is a good thing constant swapping is not and
 extreme swapping can render the system almost completely unresponsive.
 The most important swapping metric is swapping activity, that is, how
 much pages are being swapped in and out, not the plain amount of swap
 currently in use. There might be a portion of swap in use at any given
-time but if there is no constant swapping activity then this swap usage
-is a merely a sign that there has been a memory pressure situation in
-the past and the kernel has swapped out some idle pages/processes to
-make room for actively running applications or perhaps for buffering and
-caching. Since all modern operating systems use demand paging the
-swapped out pages are not proactively swapped back in until there is a
-real need for them so swap may remain long used after a memory pressure
-situation.
+time but in case there is no constant swapping activity then this swap
+usage is a merely a sign that there has been a memory pressure situation
+in the past and the kernel has swapped out some idle pages or processes
+to make room for actively running applications or perhaps for buffering
+and caching. Since all modern operating systems use demand paging the
+swapped out pages are not proactively swapped back into the main memory
+until there is a real need for them so swap may remain long used after a
+memory pressure situation.
 
 Use `pmrep :sar-W` (with PCP) or `sar -W 1` (with sysstat) to monitor
 swapping activity on a system.
