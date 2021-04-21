@@ -284,7 +284,8 @@ Please note that 3rd party [kernel
 modules](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/managing-kernel-modules_managing-monitoring-and-updating-the-kernel)
 may cause unexpected issues even outside of their supposed feature
 domain (for instance, a 3rd party VPN kernel module once broke the
-kernel file system monitoring events functionality). See also
+kernel file system monitoring events functionality which in turn broke
+some non-network applications). See also
 https://access.redhat.com/solutions/4246821 and
 https://access.redhat.com/solutions/40594 for more information about
 kernel modules.
