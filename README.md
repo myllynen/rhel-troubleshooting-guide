@@ -510,6 +510,21 @@ sync ; echo 3 > /proc/sys/vm/drop_caches ;
 echo c > /proc/sysrq-trigger
 ```
 
+## File System Issues
+
+Sometimes deleting a large file does not free up space on a file system.
+This is most likely caused by the file being still open by a process,
+see https://access.redhat.com/solutions/2316. To list deleted but open
+files on a mount point do:
+
+```
+lsof /mount/path | grep deleted
+```
+
+In case a file system cannot be unmounted consider using
+[fuser(1)](https://man7.org/linux/man-pages/man1/fuser.1.html) to kill
+the processes preventing the operation.
+
 ## Collecting sosreports
 
 When there is an issue which looks like at least potentially or
