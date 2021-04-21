@@ -16,7 +16,9 @@ For further help with [Red Hat](https://www.redhat.com)
 [technologies](https://www.redhat.com/en/technologies) be sure to
 contact [Red Hat Support](https://www.redhat.com/en/services/support)
 using the official channels, like [Red Hat Customer
-Portal](https://access.redhat.com/).
+Portal](https://access.redhat.com/). [Red Hat Support Scope of
+Coverage](https://access.redhat.com/support/offerings/production/soc/)
+describes what Red Hat will and will not support.
 
 ## Checking for Known Issues
 
@@ -169,6 +171,10 @@ To see the files changed since installation (from RPM), use:
 rpm -V PKG1 PKG2
 ```
 
+Changes in all files from all packages can be checked with `rpm -Va`
+but that might provide quite a long list of output and some changes
+are to be expected for certain packages.
+
 If the application is logging at least parts of its activities to the
 system log, it is a good idea to add markers to the system log to
 highlight when a test run was starting and ending, for example:
@@ -273,6 +279,15 @@ compares a number of different informations between two systems,
 including installed packages, kernel modules, tuning, hardware and more.
 
 ![Insights](images/insights-drift.png)
+
+Please note that [3rd party kernel
+modules](https://access.redhat.com/solutions/4246821) may cause
+unexpected issues even outside of their supposed feature domain (for
+instance, a 3rd party VPN kernel module once broke the kernel file
+system monitoring events functionality). See
+https://access.redhat.com/solutions/4246821 and
+https://access.redhat.com/solutions/40594 for more information about
+kernel modules.
 
 ### Checking Changes in Package Contents
 
