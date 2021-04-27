@@ -20,6 +20,9 @@ Portal](https://access.redhat.com/). [Red Hat Support Scope of
 Coverage](https://access.redhat.com/support/offerings/production/soc/)
 describes what Red Hat will and will not support.
 
+For performance tips see
+https://github.com/myllynen/rhel-performance-guide.
+
 ## Checking for Known Issues
 
 Before spending hours or even days trying to troubleshoot an issue, it
