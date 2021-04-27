@@ -42,6 +42,7 @@ Tools and services which can help you to find known issues include:
 * [Red Hat Knowledge Base](https://access.redhat.com/knowledgebase)
 * [Red Hat Insights](https://access.redhat.com/products/red-hat-insights/)
 * [Red Hat Bugzilla](https://bugzilla.redhat.com/)
+* [Red Hat Troubleshooting Labs](https://access.redhat.com/labs/#!?type=troubleshoot)
 
 ## Basic System Level Sanity Checking
 
