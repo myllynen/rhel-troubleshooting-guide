@@ -169,15 +169,25 @@ Then investigate the application configuration (and make sure what is
 currently configured in the configuration files is actually in use by
 the running application process).
 
-To see the files changed since installation (from RPM), use:
+To see all the files changed since installation (from RPMs) use:
+
+```
+rpm -Va
+```
+
+This will check all files from all packages and can take a while. The
+results will highlight what kind of customizations have been made to a
+particular system. See
+[rpm(8)](https://man7.org/linux/man-pages/man8/rpm.8.html) for
+explanation of the output of the command. Note that there might be some
+expected and packaging related changes reported so there will be some
+output from this command even on a pristine system.
+
+In case wanting to check changes in one or few packages use:
 
 ```
 rpm -V PKG1 PKG2
 ```
-
-Changes in all files from all packages can be checked with `rpm -Va`
-but that might provide quite a long list of output and some changes
-are to be expected for certain packages.
 
 If the application is logging at least parts of its activities to the
 system log, it is a good idea to add markers to the system log to
