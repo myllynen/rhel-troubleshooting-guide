@@ -319,6 +319,15 @@ kernel modules.
 Sometimes it is helpful to check what changes have been introduced in
 newer (Red Hat) RPM packages.
 
+Note the basic version numbers of RHEL packages do not fully indicate
+what fixes are included in packages as Red Hat backports notable
+security fixes (and sometimes features as well) in backward-compatible
+way to RHEL packages. See
+https://www.redhat.com/en/blog/what-backporting-and-how-does-it-apply-rhel-and-other-red-hat-products
+and
+https://www.redhat.com/en/blog/what-latest-kernel-release-my-version-red-hat-enterprise-linux
+for details.
+
 One option to consider is using the yum security plugin for security
 related fixes, see https://access.redhat.com/solutions/10021. Another
 quick way to see fixed issues and CVEs is to check the RPM changelog:
