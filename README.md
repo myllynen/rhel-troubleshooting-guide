@@ -321,7 +321,7 @@ newer (Red Hat) RPM packages.
 
 Note the basic version numbers of RHEL packages do not fully indicate
 what fixes are included in packages as Red Hat backports notable
-security fixes (and sometimes features as well) in backward-compatible
+security fixes (and sometimes features as well) in a backward-compatible
 way to RHEL packages. See
 https://www.redhat.com/en/blog/what-backporting-and-how-does-it-apply-rhel-and-other-red-hat-products
 and
