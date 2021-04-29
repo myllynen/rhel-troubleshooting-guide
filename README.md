@@ -129,6 +129,8 @@ Consider checking current and recent system performance metrics with
 [pmrep(1)](http://man7.org/linux/man-pages/man1/pmrep.1.html) utility or
 with
 [sysstat](http://sebastien.godard.pagesperso-orange.fr/)/[sar(1)](http://man7.org/linux/man-pages/man1/sar.1.html).
+For more details on performance related issues see
+https://github.com/myllynen/rhel-performance-guide.
 
 ## Basic Application Level Sanity Checking
 
