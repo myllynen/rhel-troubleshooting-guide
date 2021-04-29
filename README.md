@@ -106,9 +106,17 @@ less /var/log/secure
 ```
 
 When using SELinux in Enforcing mode (as it
-[should](https://stopdisablingselinux.com/) be) it is also worth
-checking for possible SELinux AVCs (the two latter commands will show
-all audit messages regardless of SELinux configuration):
+[should](https://stopdisablingselinux.com/) be) it is worth checking for
+possible SELinux denials with interpretations:
+
+```
+ausearch -m AVC -i 
+```
+
+Additional SELinux related information can be found with the commands
+below, see the
+[ausearch(8)](https://man7.org/linux/man-pages/man8/ausearch.8.html)
+manual page for more information:
 
 ```
 grep denied /var/log/audit/audit.log
