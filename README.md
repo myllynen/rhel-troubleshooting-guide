@@ -146,7 +146,8 @@ enable core dumps before reproducing the issue with core dumps enabled.
 (An easy way to test whether core dumps are enabled is to send the SEGV
 signal to a running (non-critical!) process, for example `kill -SEGV
 $(pidof chronyd)`, this ought to trigger core dump creation when
-enabled.)
+enabled.) See also the [abrtd(8)](https://www.mankier.com/8/abrtd)
+manual page.
 
 If an application has not crashed but is misbehaving or not responding,
 check all its logs. Make sure there are no firewalls or recent network
