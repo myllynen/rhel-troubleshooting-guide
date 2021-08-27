@@ -1,4 +1,9 @@
+---
+---
 # RHEL Troubleshooting Guide
+
+GitHub repo: [https://github.com/myllynen/rhel-troubleshooting-guide](https://github.com/myllynen/rhel-troubleshooting-guide)  
+Themed page: [https://myllynen.github.io/rhel-troubleshooting-guide](https://myllynen.github.io/rhel-troubleshooting-guide)
 
 ## Introduction
 
@@ -21,7 +26,7 @@ Coverage](https://access.redhat.com/support/offerings/production/soc/)
 describes what Red Hat will and will not support.
 
 For performance tips see
-https://github.com/myllynen/rhel-performance-guide.
+[https://github.com/myllynen/rhel-performance-guide](https://github.com/myllynen/rhel-performance-guide).
 
 ## Checking for Known Issues
 
@@ -130,7 +135,7 @@ Consider checking current and recent system performance metrics with
 with
 [sysstat](http://sebastien.godard.pagesperso-orange.fr/)/[sar(1)](http://man7.org/linux/man-pages/man1/sar.1.html).
 For more details on performance related issues see
-https://github.com/myllynen/rhel-performance-guide.
+[https://github.com/myllynen/rhel-performance-guide](https://github.com/myllynen/rhel-performance-guide).
 
 ## Basic Application Level Sanity Checking
 
@@ -311,9 +316,10 @@ may cause unexpected issues even outside of their supposed feature
 domain (for instance, a 3rd party VPN kernel module once broke the
 kernel file system monitoring events functionality which in turn broke
 some non-network applications). See also
-https://access.redhat.com/solutions/4246821 and
-https://access.redhat.com/solutions/40594 for more information about
-kernel modules.
+[https://access.redhat.com/solutions/4246821](https://access.redhat.com/solutions/4246821)
+and
+[https://access.redhat.com/solutions/40594](https://access.redhat.com/solutions/40594)
+for more information about kernel modules.
 
 ### Checking Changes in Package Contents
 
@@ -324,14 +330,16 @@ Note the basic version numbers of RHEL packages do not fully indicate
 what fixes are included in packages as Red Hat backports notable
 security fixes (and sometimes features as well) in a backward-compatible
 way to RHEL packages. See
-https://www.redhat.com/en/blog/what-backporting-and-how-does-it-apply-rhel-and-other-red-hat-products
+[https://www.redhat.com/en/blog/what-backporting-and-how-does-it-apply-rhel-and-other-red-hat-products](https://www.redhat.com/en/blog/what-backporting-and-how-does-it-apply-rhel-and-other-red-hat-products)
 and
-https://www.redhat.com/en/blog/what-latest-kernel-release-my-version-red-hat-enterprise-linux
+[https://www.redhat.com/en/blog/what-latest-kernel-release-my-version-red-hat-enterprise-linux](https://www.redhat.com/en/blog/what-latest-kernel-release-my-version-red-hat-enterprise-linux)
 for details.
 
 One option to consider is using the yum security plugin for security
-related fixes, see https://access.redhat.com/solutions/10021. Another
-quick way to see fixed issues and CVEs is to check the RPM changelog:
+related fixes, see
+[https://access.redhat.com/solutions/10021](https://access.redhat.com/solutions/10021).
+Another quick way to see fixed issues and CVEs is to check the RPM
+changelog:
 
 ```
 rpm -q --changelog PKG | less
@@ -399,7 +407,7 @@ there should be no efforts by administrators to avoid kernel buffering
 and caching altogether.
 
 For some related details, see
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=34e431b0ae398fc54ea69ff85ec700722c9da773.
+[https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=34e431b0ae398fc54ea69ff85ec700722c9da773](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=34e431b0ae398fc54ea69ff85ec700722c9da773).
 
 While buffering and caching is a good thing constant paging and swapping
 is not and extreme swapping can render the system almost completely
@@ -417,8 +425,8 @@ remain long used after a memory pressure situation.
 
 Use `pmrep :sar-W` (with PCP) or `sar -W 1` (with sysstat) to monitor
 swapping activity on a system. See
-https://chrisdown.name/2018/01/02/in-defence-of-swap.html for discussion
-on swap.
+[https://chrisdown.name/2018/01/02/in-defence-of-swap.html](https://chrisdown.name/2018/01/02/in-defence-of-swap.html)
+for discussion on swap.
 
 ## Understanding Kernel Issues and Internal Messages
 
@@ -441,7 +449,7 @@ or force the kernel to crash in order to create a vmcore. In case of a
 virtual machine (VM), a VM core dump collected from the hypervisor side
 is needed in these cases. For a generic vmcore capturing information on
 KVM (OpenStack/RHEL/RHV/RHHI), see
-https://access.redhat.com/solutions/39604.
+[https://access.redhat.com/solutions/39604](https://access.redhat.com/solutions/39604).
 
 Sometimes the system log (and the output of `dmesg`) might contain
 information about soft lockups or hung tasks. The system may or may not
@@ -484,7 +492,8 @@ addition to on-system monitoring ones.
 If a kernel hang is suspected and it seems not possible to trigger a
 kernel crash inside a guest then a guest core dump captured from the
 hypervisor side will be needed. For more information about this, please
-see https://access.redhat.com/solutions/39604.
+see
+[https://access.redhat.com/solutions/39604](https://access.redhat.com/solutions/39604).
 
 ### Soft Lockup Messages
 
@@ -511,13 +520,13 @@ After seeing these messages troubleshooting efforts should not start
 with the assumption that a kernel bug has been hit, it will be more
 helpful to investigate hypervisor, network, and storage side first.
 There are few generic Red Hat Knowledge Base articles about this, for
-instance see https://access.redhat.com/articles/371803.
+instance see [https://access.redhat.com/articles/371803](https://access.redhat.com/articles/371803).
 
 If everything else has really been rules out, Red Hat Support can help
 to investigate the issue further. In such case a kernel crash dump
 (vmcore) is a must-have. For instructions how to crash the kernel
 automatically when experiencing a soft lockup, please see
-https://access.redhat.com/solutions/19541.
+[https://access.redhat.com/solutions/19541](https://access.redhat.com/solutions/19541).
 
 Note that crashing the kernel will (obviously) lead to imminent system
 reboot causing downtime of the node, thus it should be done only when
@@ -544,9 +553,9 @@ the system or the hypervisor being under extreme load leading to
 resource starvation, or there might be a kernel bug causing the issue.
 
 When encountering these messages, it is a good idea to check
-https://access.redhat.com/solutions/31453 for more detailed description
-of hung task messages and also search for Red Hat Knowledge Base for
-related known issues.
+[https://access.redhat.com/solutions/31453](https://access.redhat.com/solutions/31453)
+for more detailed description of hung task messages and also search
+for Red Hat Knowledge Base for related known issues.
 
 If the system does not recover from such a situation by itself or it
 occurs frequently with no indications of related known issues, Red Hat
@@ -566,8 +575,9 @@ echo c > /proc/sysrq-trigger
 
 Sometimes deleting a large file does not free up space on a file system.
 This is most likely caused by the file being still open by a process,
-see https://access.redhat.com/solutions/2316. To list deleted but open
-files on a mount point do:
+see
+[https://access.redhat.com/solutions/2316](https://access.redhat.com/solutions/2316).
+To list deleted but open files on a mount point do:
 
 ```
 lsof /mount/path | grep deleted
@@ -601,8 +611,9 @@ running sosreport command and use the above command with the addition of
 case another plugin hangs as well, repeat the procedure and use a
 comma-separated list to disable all the problematic plugins.
 
-See https://access.redhat.com/solutions/3592 for more details on
-sosreports.
+See
+[https://access.redhat.com/solutions/3592](https://access.redhat.com/solutions/3592)
+for more details on sosreports.
 
 ### Collecting Detailed Process Level Information
 
@@ -650,7 +661,8 @@ strace -ff -s 1024 -p PID > strace-output.txt 2>&1
 For any crashed process a core dump is available in case core dumps are
 enabled (but they are is also subject to the same data sensitivity
 considerations as mentioned earlier). See
-https://access.redhat.com/solutions/56021 on how to collect core dumps.
+[https://access.redhat.com/solutions/56021](https://access.redhat.com/solutions/56021)
+on how to collect core dumps.
 
 ## Collecting Additional Data from a Hung VM
 
@@ -689,13 +701,13 @@ echo s > /proc/sysrq-trigger
 
 This is not a full substitute for a vmcore but may in some cases provide
 some additional clues. Please refer to
-https://www.kernel.org/doc/Documentation/networking/netconsole.txt for
-full netconsole information.
+[https://www.kernel.org/doc/Documentation/networking/netconsole.txt](https://www.kernel.org/doc/Documentation/networking/netconsole.txt)
+for full netconsole information.
 
 ## Collecting Data for Networking Issues
 
 Generic tips about debugging networking issues are available at
-https://access.redhat.com/articles/1311173.
+[https://access.redhat.com/articles/1311173](https://access.redhat.com/articles/1311173).
 
 A general port connection test was in the past usually performed with
 the [telnet(1)](https://www.mankier.com/1/telnet) command. But nowadays
@@ -741,12 +753,13 @@ NIC ring buffer values as possible.
 If in doubt whether an issue is happening on a guest or hypervisor
 level, for complete analysis full packet captures from all levels of the
 infrastructure below guests will be needed. See
-https://access.redhat.com/solutions/4272142 for description how
+[https://access.redhat.com/solutions/4272142](https://access.redhat.com/solutions/4272142)
+for description how
 [tcpdump(8)](https://man7.org/linux/man-pages/man8/tcpdump.8.html)
 captures packets.
 
 ## Additional Information
 
-* https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/ - RHEL documentation
-* https://access.redhat.com/knowledgebase/ - Red Hat Knowledge Base
-* https://access.redhat.com/ - Red Hat Customer Portal
+* [https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/](RHEL documentation)
+* [https://access.redhat.com/knowledgebase/](Red Hat Knowledge Base)
+* [https://access.redhat.com/](Red Hat Customer Portal)
