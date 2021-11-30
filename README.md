@@ -760,6 +760,6 @@ captures packets.
 
 ## Additional Information
 
-* [https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/](RHEL documentation)
-* [https://access.redhat.com/knowledgebase/](Red Hat Knowledge Base)
-* [https://access.redhat.com/](Red Hat Customer Portal)
+* [RHEL documentation](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/)
+* [Red Hat Knowledge Base](https://access.redhat.com/knowledgebase/)
+* [Red Hat Customer Portal](https://access.redhat.com/)
