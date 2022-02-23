@@ -229,7 +229,7 @@ application is actually accessing (use `-p` to attach to a running
 process):
 
 ```
-strace -e open -ff /path/to/app --test
+strace -e open,openat,open_by_handle_at -ff /path/to/app --test
 ```
 
 [strace(1)](http://man7.org/linux/man-pages/man1/strace.1.html) can also
