@@ -7,8 +7,8 @@ Themed page: [https://myllynen.github.io/rhel-troubleshooting-guide](https://myl
 
 ## Introduction
 
-This page provides a compact guide to [Red Hat Enterprise Linux
-(RHEL)](https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux)
+This page provides a compact guide to
+[Red Hat Enterprise Linux (RHEL)](https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux)
 troubleshooting on bare metal and virtualization platforms like
 [OpenStack](https://www.redhat.com/en/technologies/linux-platforms/openstack-platform)
 /
@@ -20,9 +20,9 @@ For further help with [Red Hat](https://www.redhat.com)
 [products](https://www.redhat.com/en/technologies/all-products) and
 [technologies](https://www.redhat.com/en/technologies) be sure to
 contact [Red Hat Support](https://www.redhat.com/en/services/support)
-using the official channels, like [Red Hat Customer
-Portal](https://access.redhat.com/). [Red Hat Support Scope of
-Coverage](https://access.redhat.com/support/offerings/production/soc/)
+using the official channels, like
+[Red Hat Customer Portal](https://access.redhat.com/).
+[Red Hat Support Scope of Coverage](https://access.redhat.com/support/offerings/production/soc)
 describes what Red Hat will and will not support.
 
 For performance tips see
@@ -35,10 +35,9 @@ is a good idea to check for known issues that might affect the
 situation. In fact, best would be to check for these known issues
 proactively to avoid them having an effect in the first place.
 
-[Red Hat
-Insights](https://www.redhat.com/en/technologies/management/insights) is
-included as part of [RHEL
-subscription](https://access.redhat.com/subscription-value) and can
+[Red Hat Insights](https://www.redhat.com/en/technologies/management/insights) is
+included as part of
+[RHEL subscription](https://access.redhat.com/subscription-value) and can
 automatically identify a large number of known issues and solutions. It
 could perhaps even be
 [integrated](https://www.redhat.com/en/blog/integrating-monitoring-system-red-hat-insights)
@@ -48,7 +47,7 @@ Tools and services which can help you to find known issues include:
 
 * [Red Hat Customer Portal](https://access.redhat.com/)
 * [Red Hat Knowledge Base](https://access.redhat.com/knowledgebase)
-* [Red Hat Insights](https://access.redhat.com/products/red-hat-insights/)
+* [Red Hat Insights](https://access.redhat.com/products/red-hat-insights)
 * [Red Hat Bugzilla](https://bugzilla.redhat.com/)
 * [Red Hat Troubleshooting Labs](https://access.redhat.com/labs/#!?type=troubleshoot)
 
@@ -141,16 +140,16 @@ For more details on performance related issues see
 
 As mentioned above, system logs might contain traces of application
 crashes which should be investigated further. If a crash is in a RHEL
-component, please contact [Red Hat
-Support](https://www.redhat.com/en/services/support) but please keep in
-mind that root cause analysis (RCA) and fixing the issue might be
-impossible without the corresponding application core dump. In case core
-dumps are disabled, please refer to [Red Hat
-documentation](https://access.redhat.com/solutions/56021) on how to
-enable core dumps before reproducing the issue with core dumps enabled.
-(An easy way to test whether core dumps are enabled is to send the SEGV
-signal to a running (non-critical!) process, for example `kill -SEGV
-$(pidof chronyd)`, this ought to trigger core dump creation when
+component, please contact
+[Red Hat Support](https://www.redhat.com/en/services/support) but
+please keep in mind that root cause analysis (RCA) and fixing the issue
+might be impossible without the corresponding application core dump. In
+case core dumps are disabled, please refer to
+[Red Hat documentation](https://access.redhat.com/solutions/56021) on
+how to enable core dumps before reproducing the issue with core dumps
+enabled. (An easy way to test whether core dumps are enabled is to send
+the SEGV signal to a running (non-critical!) process, for example `kill
+-SEGV $(pidof chronyd)`, this ought to trigger core dump creation when
 enabled.) See also the [abrtd(8)](https://www.mankier.com/8/abrtd)
 manual page.
 
@@ -247,11 +246,11 @@ for real network related troubleshooting it is of course better to use
 ## Checking Recent Changes in System
 
 Often a recently made change may be related to the issue at hand. In
-case a centralized configuratiom management system (like [Ansible
-Tower](https://access.redhat.com/products/ansible-tower-red-hat)) is in
-use, recent updates to its content should be reviewed. The details of
-configuration management systems are out of scope for this guide but it
-should be kept in mind that local configuration changes may be
+case a centralized configuratiom management system (like
+[Ansible Automation Platform](https://access.redhat.com/products/red-hat-ansible-automation-platform))
+is in use, recent updates to its content should be reviewed. The details
+of configuration management systems are out of scope for this guide but
+it should be kept in mind that local configuration changes may be
 periodically overwritten by such centralized tools.
 
 Sometimes it is useful to see if someone has recently logged into to a
@@ -267,8 +266,8 @@ journalctl -r _UID=UID
 Note that a rogue user can easily avoid recording their command history
 in the shell history file and that the local privacy regulations should
 be respected when investigating possible actions by other users. On the
-other hand, in some cases [session
-recordings](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html-single/recording_sessions/index)
+other hand, in some cases
+[session recordings](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html-single/recording_sessions/index)
 might be mandatory for compliance and regulatory reasons.
 
 Recent local changes made with
@@ -301,17 +300,18 @@ the /etc directories as well. Use `sysctl -a | sort` to dump current
 kernel parameters and `diff -purN DIR1 DIR2` the compare the contents of
 two directories.
 
-In case using [Red Hat
-Insights](https://access.redhat.com/products/red-hat-insights/),
-comparing systems [can be done using the
-service](https://cloud.redhat.com/insights/drift). Red Hat Insights
-compares a number of different informations between two systems,
-including installed packages, kernel modules, tuning, hardware and more.
+In case using
+[Red Hat Insights](https://access.redhat.com/products/red-hat-insights),
+comparing systems
+[can be done using the service](https://cloud.redhat.com/insights/drift).
+Red Hat Insights compares a number of different informations between two
+systems, including installed packages, kernel modules, tuning, hardware
+and more.
 
 ![Insights](images/insights-drift.png)
 
-Please note that 3rd party [kernel
-modules](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/managing-kernel-modules_managing-monitoring-and-updating-the-kernel)
+Please note that 3rd party
+[kernel modules](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/managing-kernel-modules_managing-monitoring-and-updating-the-kernel)
 may cause unexpected issues even outside of their supposed feature
 domain (for instance, a 3rd party VPN kernel module once broke the
 kernel file system monitoring events functionality which in turn broke
@@ -600,11 +600,11 @@ The following command collects a sosreport from a node without asking
 any questions and also captures older logs which may be needed as well:
 
 ```
-sosreport --all-logs --batch
+sos report --all-logs --batch
 ```
 
 In case the command seems to never finish, you must run it manually with
-the problematic plugins disabled. Run `sosreport -v` to see detailed
+the problematic plugins disabled. Run `sos report -v` to see detailed
 progress and to determine the plugin that hangs. Then kill the currently
 running sosreport command and use the above command with the addition of
 `-v -n <hanging-plugin>` parameters to allow sosreport to complete. In
