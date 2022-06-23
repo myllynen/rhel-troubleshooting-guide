@@ -145,8 +145,10 @@ component, please contact
 please keep in mind that root cause analysis (RCA) and fixing the issue
 might be impossible without the corresponding application core dump. In
 case core dumps are disabled, please refer to
-[Red Hat documentation](https://access.redhat.com/solutions/56021) on
-how to enable core dumps before reproducing the issue with core dumps
+[https://access.redhat.com/solutions/56021](https://access.redhat.com/solutions/56021)
+and
+[https://access.redhat.com/solutions/649193](https://access.redhat.com/solutions/649193)
+on how to enable core dumps before reproducing the issue with core dumps
 enabled. (An easy way to test whether core dumps are enabled is to send
 the SEGV signal to a running (non-critical!) process, for example `kill
 -SEGV $(pidof chronyd)`, this ought to trigger core dump creation when
