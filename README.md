@@ -10,17 +10,15 @@ Themed page: [https://myllynen.github.io/rhel-troubleshooting-guide](https://myl
 This page provides a compact guide to
 [Red Hat Enterprise Linux (RHEL)](https://www.redhat.com/en/technologies/linux-platforms/enterprise-linux)
 troubleshooting on bare metal and virtualization platforms like
-[OpenStack](https://www.redhat.com/en/technologies/linux-platforms/openstack-platform)
-/
-[RHV](https://www.redhat.com/en/technologies/virtualization/enterprise-virtualization)
-/
-[RHHI](https://www.redhat.com/en/technologies/storage/hyperconverged-infrastructure).
+[OpenShift Virtualization](https://www.redhat.com/en/technologies/cloud-computing/openshift/virtualization)
+and
+[OpenStack](https://www.redhat.com/en/technologies/linux-platforms/openstack-platform).
 
-For further help with [Red Hat](https://www.redhat.com)
-[products](https://www.redhat.com/en/technologies/all-products) and
-[technologies](https://www.redhat.com/en/technologies) be sure to
-contact [Red Hat Support](https://www.redhat.com/en/services/support)
-using the official channels, like
+For further help with [Red Hat](https://www.redhat.com/en)
+[products](https://www.redhat.com/en/technologies/all-products) be sure
+to contact
+[Red Hat Support](https://www.redhat.com/en/services/support) using the
+official channels, for details see
 [Red Hat Customer Portal](https://access.redhat.com/).
 [Red Hat Support Scope of Coverage](https://access.redhat.com/support/offerings/production/soc)
 describes what Red Hat will and will not support.
@@ -33,13 +31,13 @@ For performance tips see
 Before spending hours or even days trying to troubleshoot an issue, it
 is a good idea to check for known issues that might affect the
 situation. In fact, best would be to check for these known issues
-proactively to avoid them having an effect in the first place.
+proactively to avoid them having any effect in the first place.
 
-[Red Hat Insights](https://www.redhat.com/en/technologies/management/insights) is
-included as part of
-[RHEL subscription](https://access.redhat.com/subscription-value) and can
-automatically identify a large number of known issues and solutions. It
-could perhaps even be
+[Red Hat Insights](https://www.redhat.com/en/technologies/management/insights)
+is included as part of
+[RHEL subscription](https://www.redhat.com/en/resources/red-hat-enterprise-linux-subscription-guide)
+and can automatically identify a large number of known issues and
+solutions. Insights can also be
 [integrated](https://www.redhat.com/en/blog/integrating-monitoring-system-red-hat-insights)
 with a monitoring solution.
 
@@ -47,9 +45,9 @@ Tools and services which can help you to find known issues include:
 
 * [Red Hat Customer Portal](https://access.redhat.com/)
 * [Red Hat Knowledge Base](https://access.redhat.com/knowledgebase)
-* [Red Hat Insights](https://access.redhat.com/products/red-hat-insights)
-* [Red Hat Bugzilla](https://bugzilla.redhat.com/)
-* [Red Hat Troubleshooting Labs](https://access.redhat.com/labs/#!?type=troubleshoot)
+* [Red Hat Insights](https://access.redhat.com/products/red-hat-insights/)
+* [Red Hat Issue Tracker](https://issues.redhat.com/)
+* [Red Hat Troubleshooting Labs](https://access.redhat.com/labs/?type=troubleshoot)
 
 ## Basic System Level Sanity Checking
 
@@ -66,7 +64,7 @@ ip a
 ```
 
 Check the recent lines of
-[dmesg(1)](http://man7.org/linux/man-pages/man1/dmesg.1.html) output to
+[dmesg(1)](https://man7.org/linux/man-pages/man1/dmesg.1.html) output to
 make sure there have not been any (virtual) hardware, driver, or kernel
 internal issues (like filesystem or storage errors) reported. In case of
 hardware issues, please investigate the (virtual) hardware platform side
@@ -79,7 +77,7 @@ dmesg -T
 ```
 
 Check the system status in general with
-[top(1)](http://man7.org/linux/man-pages/man1/top.1.html) to make sure
+[top(1)](https://man7.org/linux/man-pages/man1/top.1.html) to make sure
 no unexpected processes are running or eating all CPU cycles and that
 there is no notable IO wait. High IO wait might indicate storage issues
 which cause the system to slowdown in general. Also note the system
@@ -92,8 +90,9 @@ top
 
 Use [execsnoop(8)](https://www.mankier.com/8/execsnoop) (from the
 _bcc-tools_ package) to verify that no large amount of short-lived
-processes are being run constantly. Such processes would often not show
-up in [top(1)](http://man7.org/linux/man-pages/man1/top.1.html).
+processes are being run constantly. Such processes would not often be
+visible in [top(1)](https://man7.org/linux/man-pages/man1/top.1.html)
+output.
 
 ```
 /usr/share/bcc/tools/execsnoop
@@ -125,14 +124,14 @@ manual page for more information:
 ```
 grep denied /var/log/audit/audit.log
 ausearch -i --input /var/log/audit/audit.log
-ausearch -ts 12/24/2019 12:00:00
+ausearch -ts 12/24/2024 12:00:00
 ```
 
 Consider checking current and recent system performance metrics with
 [Performance Co-Pilot](https://pcp.io/) and its
-[pmrep(1)](http://man7.org/linux/man-pages/man1/pmrep.1.html) utility or
-with
-[sysstat](http://sebastien.godard.pagesperso-orange.fr/)/[sar(1)](http://man7.org/linux/man-pages/man1/sar.1.html).
+[pmrep(1)](https://man7.org/linux/man-pages/man1/pmrep.1.html) utility
+or with
+[sysstat](https://github.com/sysstat/sysstat)/[sar(1)](https://man7.org/linux/man-pages/man1/sar.1.html).
 For more details on performance related issues see
 [https://github.com/myllynen/rhel-performance-guide](https://github.com/myllynen/rhel-performance-guide).
 
@@ -141,25 +140,24 @@ For more details on performance related issues see
 As mentioned above, system logs might contain traces of application
 crashes which should be investigated further. If a crash is in a RHEL
 component, please contact
-[Red Hat Support](https://www.redhat.com/en/services/support) but
-please keep in mind that root cause analysis (RCA) and fixing the issue
-might be impossible without the corresponding application core dump. In
-case core dumps are disabled, please refer to
+[Red Hat Support](https://www.redhat.com/en/services/support) but please
+keep in mind that root cause analysis (RCA) and fixing the issue might
+be impossible without the corresponding application core dump. In case
+core dumps are disabled, please refer to
 [https://access.redhat.com/solutions/56021](https://access.redhat.com/solutions/56021)
 and
 [https://access.redhat.com/solutions/649193](https://access.redhat.com/solutions/649193)
-on how to enable core dumps before reproducing the issue with core dumps
-enabled. (An easy way to test whether core dumps are enabled is to send
+on how to enable core dumps to then reproduce the issue with core dumps
+enabled. An easy way to test whether core dumps are enabled is to send
 the SEGV signal to a running (non-critical!) process, for example `kill
 -SEGV $(pidof chronyd)`, this ought to trigger core dump creation when
-enabled.) See also the [abrtd(8)](https://www.mankier.com/8/abrtd)
-manual page.
+core dumps have been enabled.
 
-If an application has not crashed but is misbehaving or not responding,
-check all its logs. Make sure there are no firewalls or recent network
-configurations preventing access to it. Try to definitively identify the
-application with issues first as a higher level application could be
-affected by issues of a lower level application.
+If an application has not crashed but is misbehaving or unresponsive,
+check all available logs for errors, warnings, or unusual activity.
+Ensure that no firewalls or recent network configuration changes are
+preventing access. Identify the affected application carefully, as
+issues in a lower-level application may impact a higher-level one.
 
 For example, in case an application is heavily relying on LDAP, if the
 LDAP server is providing responses to queries from the command line as
@@ -179,12 +177,11 @@ installed software:
 ```
 rpm -qa --last | less
 tail /var/log/dnf.log
-tail /var/log/yum.log
 ```
 
-Then investigate the application configuration (and make sure what is
+Then investigate the application configuration and make sure what is
 currently configured in the configuration files is actually in use by
-the running application process).
+the running application process.
 
 To see all the files changed since installation (from RPMs) use:
 
@@ -193,14 +190,14 @@ rpm -Va
 ```
 
 This will check all files from all packages and can take a while. The
-results will highlight what kind of customizations have been made to a
-particular system. See
+results will highlight what kind of customizations have been made to the
+system. See
 [rpm(8)](https://man7.org/linux/man-pages/man8/rpm.8.html) for
 explanation of the output of the command. Note that there might be some
 expected and packaging related changes reported so there will be some
 output from this command even on a pristine system.
 
-In case wanting to check changes in one or few packages use:
+To check changes in certain packages use:
 
 ```
 rpm -V PKG1 PKG2
@@ -233,9 +230,9 @@ process):
 strace -e open,openat,open_by_handle_at -ff /path/to/app --test
 ```
 
-[strace(1)](http://man7.org/linux/man-pages/man1/strace.1.html) can also
-be used to check some basic networking behavior of an application, for
-example whether it is communicating with a certain host:
+[strace(1)](https://man7.org/linux/man-pages/man1/strace.1.html) can
+also be used to check some basic networking behavior of an application,
+for example whether it is communicating with a certain host:
 
 ```
 strace -ff /path/to/app --test 2>&1 | grep 192.168.122.100
@@ -248,8 +245,8 @@ for real network related troubleshooting it is of course better to use
 ## Checking Recent Changes in System
 
 Often a recently made change may be related to the issue at hand. In
-case a centralized configuratiom management system (like
-[Ansible Automation Platform](https://access.redhat.com/products/red-hat-ansible-automation-platform))
+case a centralized configuratiom management system (such as
+[Ansible Automation Platform](https://access.redhat.com/products/red-hat-ansible-automation-platform/))
 is in use, recent updates to its content should be reviewed. The details
 of configuration management systems are out of scope for this guide but
 it should be kept in mind that local configuration changes may be
@@ -268,9 +265,8 @@ journalctl -r _UID=UID
 Note that a rogue user can easily avoid recording their command history
 in the shell history file and that the local privacy regulations should
 be respected when investigating possible actions by other users. On the
-other hand, in some cases
-[session recordings](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html-single/recording_sessions/index)
-might be mandatory for compliance and regulatory reasons.
+other hand, in some cases session recording might be mandatory for
+compliance and regulatory reasons.
 
 Recent local changes made with
 [sudo(8)](https://man7.org/linux/man-pages/man8/sudo.8.html) can be
@@ -302,18 +298,12 @@ the /etc directories as well. Use `sysctl -a | sort` to dump current
 kernel parameters and `diff -purN DIR1 DIR2` the compare the contents of
 two directories.
 
-In case using
-[Red Hat Insights](https://access.redhat.com/products/red-hat-insights),
-comparing systems
-[can be done using the service](https://cloud.redhat.com/insights/drift).
-Red Hat Insights compares a number of different informations between two
-systems, including installed packages, kernel modules, tuning, hardware
-and more.
-
-![Insights](images/insights-drift.png)
+When dealing with a large number of systems it is more typical to use
+automated baseline and health check playbooks to ensure the expected
+state of the systems.
 
 Please note that 3rd party
-[kernel modules](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/managing_monitoring_and_updating_the_kernel/managing-kernel-modules_managing-monitoring-and-updating-the-kernel)
+[kernel modules](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/9/html/managing_monitoring_and_updating_the_kernel/managing-kernel-modules_managing-monitoring-and-updating-the-kernel)
 may cause unexpected issues even outside of their supposed feature
 domain (for instance, a 3rd party VPN kernel module once broke the
 kernel file system monitoring events functionality which in turn broke
@@ -328,16 +318,16 @@ for more information about kernel modules.
 Sometimes it is helpful to check what changes have been introduced in
 newer (Red Hat) RPM packages.
 
-Note the basic version numbers of RHEL packages do not fully indicate
-what fixes are included in packages as Red Hat backports notable
-security fixes (and sometimes features as well) in a backward-compatible
-way to RHEL packages. See
+Note that the basic version numbers of RHEL packages do not fully
+indicate what fixes are included in packages as Red Hat backports
+notable security fixes (and sometimes features as well) in a
+backward-compatible way to RHEL packages. See
 [https://www.redhat.com/en/blog/what-backporting-and-how-does-it-apply-rhel-and-other-red-hat-products](https://www.redhat.com/en/blog/what-backporting-and-how-does-it-apply-rhel-and-other-red-hat-products)
 and
 [https://www.redhat.com/en/blog/what-latest-kernel-release-my-version-red-hat-enterprise-linux](https://www.redhat.com/en/blog/what-latest-kernel-release-my-version-red-hat-enterprise-linux)
 for details.
 
-One option to consider is using the yum security plugin for security
+One option to consider is using the dnf security plugin for security
 related fixes, see
 [https://access.redhat.com/solutions/10021](https://access.redhat.com/solutions/10021).
 Another quick way to see fixed issues and CVEs is to check the RPM
@@ -359,7 +349,7 @@ rpmdiff package-old.rpm package-new.rpm
 Even more detailed information can be checked by comparing the files
 included in the old and the new package, this useful if the changes are
 mostly in configurations and scripts contained in the packages, not in
-binaries:
+the binaries:
 
 ```
 mkdir old new
@@ -382,8 +372,8 @@ rpm -q --scripts PKG
 
 Sometimes it might seem - or there is even an alarm generated by certain
 second-grade monitoring tools - that a RHEL system is soon running out
-of memory. For example, on RHEL 8
-[free(1)](http://man7.org/linux/man-pages/man1/free.1.html) might show
+of memory. For example, on RHEL 9
+[free(1)](https://man7.org/linux/man-pages/man1/free.1.html) might show
 something like:
 
 ```
@@ -405,11 +395,11 @@ when applications access the same devices and files again later. If at
 some point applications request more memory than is currently free due
 to buffering and caching the kernel will automatically and transparently
 free up some previously used buffer/cache memory for applications. Thus
-there should be no efforts by administrators to avoid kernel buffering
-and caching altogether.
+there should be no efforts made by administrators to avoid kernel
+buffering and caching altogether.
 
 For some related details, see
-[https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=34e431b0ae398fc54ea69ff85ec700722c9da773](https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=34e431b0ae398fc54ea69ff85ec700722c9da773).
+[https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=34e431b0ae398fc54ea69ff85ec700722c9da773](https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=34e431b0ae398fc54ea69ff85ec700722c9da773).
 
 While buffering and caching is a good thing constant paging and swapping
 is not and extreme swapping can render the system almost completely
@@ -435,9 +425,9 @@ for discussion on swap.
 A kernel bug might lead to a kernel hang or crash (panic).
 
 A kernel crash causes (when
-[kdump](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/kernel_administration_guide/kernel_crash_dump_guide)
+[kdump](https://access.redhat.com/solutions/6038)
 is enabled) the system to save the kernel memory and state dump (vmcore)
-under _/var/crash_ (by default) and rebooting the system. Kernel crashes
+in _/var/crash_ (by default) and rebooting the system. Kernel crashes
 leave no traces to system logs but system logs which contain no messages
 about the system being shutdown and then suddenly show kernel bootup
 messages might be a hint of a kernel crash. The kernel internal memory
@@ -450,7 +440,7 @@ is unlikely that system internal monitoring can reliably raise an alarm
 or force the kernel to crash in order to create a vmcore. In case of a
 virtual machine (VM), a VM core dump collected from the hypervisor side
 is needed in these cases. For a generic vmcore capturing information on
-KVM (OpenStack/RHEL/RHV/RHHI), see
+KVM (including OpenShift Virtualization and OpenStack), see
 [https://access.redhat.com/solutions/39604](https://access.redhat.com/solutions/39604).
 
 Sometimes the system log (and the output of `dmesg`) might contain
@@ -458,11 +448,11 @@ information about soft lockups or hung tasks. The system may or may not
 be operating normally after such occurrences, depending on the
 situation, see below for more details on these.
 
-In some rare corner cases a kernel driver might crash without crashing
-the entire kernel and thus the functionality provided by the driver (for
-instance, networking) is defunct after the fact. System logs often
-contain traces about such incidents. However, a driver crash almost
-always leads also to a complete kernel crash.
+In some very rare corner cases a kernel driver might crash without
+crashing the entire kernel and thus the functionality provided by the
+driver (for instance, networking) is defunct after the fact. System logs
+often contain traces about such incidents. However, a driver crash
+almost always leads also to a complete kernel crash.
 
 ### Kernel Crash
 
@@ -502,27 +492,28 @@ see
 Sometimes kernel emits messages to the system log about soft lockups:
 
 ```
-kernel: BUG: soft lockup - CPU#1 stuck for 60s! [<process>:982]
+kernel: BUG: soft lockup - CPU#1 stuck for 60s! [<process>:<pid>]
 ```
 
 Despite the "BUG" in the message this most often does not indicate a
 kernel bug. As the message says, the kernel sees the CPU being stuck.
 
 These messages are typically seen under heavy hypervisor load and as
-such are symptoms not the cause. The host CPU might be busy doing
+such are symptoms not a cause. The host CPU might be busy doing
 something else (for example, running other vCPUs or swapping in/out
 guest memory pages) and the guest vCPU is not getting the CPU cycles the
 guest kernel expects thus the guest kernel assumes there has been a CPU
 lockup. Perhaps a bit confusingly, these messages may coincide with high
 guest CPU load. The explanation is that if there is no need for (v)CPU
-cycles on the guest the hypervisor situation would go undetected by the
-guest kernel.
+cycles on the guest the hypervisor high load situation would go
+undetected by the guest kernel.
 
 After seeing these messages troubleshooting efforts should not start
 with the assumption that a kernel bug has been hit, it will be more
-helpful to investigate hypervisor, network, and storage side first.
-There are few generic Red Hat Knowledge Base articles about this, for
-instance see [https://access.redhat.com/articles/371803](https://access.redhat.com/articles/371803).
+helpful to investigate the hypervisor, network, and storage side first.
+There are few generic Red Hat Knowledge Base articles about this, see
+for instance
+[https://access.redhat.com/articles/371803](https://access.redhat.com/articles/371803).
 
 If everything else has really been rules out, Red Hat Support can help
 to investigate the issue further. In such case a kernel crash dump
@@ -542,7 +533,7 @@ Sometimes kernel emits messages to the system log about a task (process)
 being blocked for more than 120 seconds:
 
 ```
-kernel: INFO: task <process>:60 blocked for more than 120 seconds.
+kernel: INFO: task <process>:<pid> blocked for more than 120 seconds.
 ```
 
 This is not an indication of anything crashing or usually not even a
@@ -575,7 +566,7 @@ echo c > /proc/sysrq-trigger
 
 ## File System Issues
 
-Sometimes deleting a large file does not free up space on a file system.
+Sometimes deleting a large file does not free up space on the file system.
 This is most likely caused by the file being still open by a process,
 see
 [https://access.redhat.com/solutions/2316](https://access.redhat.com/solutions/2316).
@@ -634,7 +625,7 @@ information proactively.
 Please note that application core dumps may contain sensitive data
 structures and information subject to privacy regulations. Also note
 that the [pstack(1)](https://www.mankier.com/1/pstack) and
-[gcore(1)](http://man7.org/linux/man-pages/man1/gcore.1.html) utitilies
+[gcore(1)](https://man7.org/linux/man-pages/man1/gcore.1.html) utitilies
 used for this are part of the _gdb_ (GNU Debugger) package which may or
 may not be suitable for installation on production systems. The details
 of these caveats and data sensitivity issues are outside of the scope
@@ -653,7 +644,7 @@ Collect core dump of a live/running/stuck process:
 gcore PID
 ```
 
-Collect [strace(1)](http://man7.org/linux/man-pages/man1/strace.1.html)
+Collect [strace(1)](https://man7.org/linux/man-pages/man1/strace.1.html)
 for a while of a live but potentially stuck process:
 
 ```
@@ -682,7 +673,7 @@ even with netconsole.
 
 On a working system which will listen messages from the system under
 investigation install
-[ncat](http://man7.org/linux/man-pages/man1/ncat.1.html) (from the
+[ncat](https://man7.org/linux/man-pages/man1/ncat.1.html) (from the
 _nmap-ncat_ package) and run:
 
 ```
@@ -715,7 +706,7 @@ A general port connection test was in the past usually performed with
 the [telnet(1)](https://www.mankier.com/1/telnet) command. But nowadays
 telnet is usually not installed by default on most systems. To avoid
 having to install telnet it is possible to use
-[curl(1)](http://man7.org/linux/man-pages/man1/curl.1.html) instead,
+[curl(1)](https://man7.org/linux/man-pages/man1/curl.1.html) instead,
 that is almost always installed by default, also in containers. To
 perform connection tests to a specific port do:
 
@@ -727,9 +718,9 @@ Errors like "Destination unreachable (Host unreachable)" could mean
 either a firewall preventing access or that there are
 [ARP](https://en.wikipedia.org/wiki/Address_Resolution_Protocol) issues
 on the network. Historically the ARP cache could be displayed with the
-[arp(8)](http://man7.org/linux/man-pages/man8/arp.8.html) command but
+[arp(8)](https://man7.org/linux/man-pages/man8/arp.8.html) command but
 nowadays it is prefered to use the
-[ip(8)](http://man7.org/linux/man-pages/man8/ip.8.html) command:
+[ip(8)](https://man7.org/linux/man-pages/man8/ip.8.html) command:
 
 ```
 ip neigh
@@ -738,17 +729,16 @@ ip neigh
 If network switch and other such issues have been ruled out and it looks
 like the issue might be RHEL related, try narrowing down the cause as
 much as possible, for example by trying different protocols
-(SSH/HTTP/FTP/etc), different file sizes (1kB/1MB/etc), different
+(SSH/HTTP/HTTPS/etc), different file sizes (1kB/1MB/etc), different
 source/destination addresses/ports, and so forth. See if co-locating VMs
 on the same/different host makes a difference (if so, investigate the
 network infrastructure level in more detail). Obviously, make sure that
 firewalls at any level are not blocking or dropping traffic. Check
 counters for dropped packets (use
-[ip(8)](http://man7.org/linux/man-pages/man8/ip.8.html),
-[ethtool(8)](http://man7.org/linux/man-pages/man8/ethtool.8.html),
-[iptables(8)](http://man7.org/linux/man-pages/man8/iptables.8.html),
+[ip(8)](https://man7.org/linux/man-pages/man8/ip.8.html),
+[ethtool(8)](https://man7.org/linux/man-pages/man8/ethtool.8.html),
 [nft(8)](https://www.mankier.com/8/nft), and
-[ss(8)](http://man7.org/linux/man-pages/man8/ss.8.html)). Consider
+[ss(8)](https://man7.org/linux/man-pages/man8/ss.8.html)). Consider
 disabling/enabling all guest NIC offloading settings and/or increasing
 NIC ring buffer values as possible.
 
@@ -762,11 +752,11 @@ captures packets.
 
 ## Additional Information
 
-* [RHEL documentation](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/)
+* [RHEL documentation](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/)
 * [Red Hat Knowledge Base](https://access.redhat.com/knowledgebase/)
 * [Red Hat Customer Portal](https://access.redhat.com/)
 
 ## See Also
 
 See also
-[https://github.com/myllynen/rhel-ansible-roles](https://github.com/myllynen/rhel-ansible-roles).
+[https://myllynen.github.io/rhel-performance-guide/](https://myllynen.github.io/rhel-performance-guide/).
