@@ -755,6 +755,7 @@ captures packets.
 * [RHEL documentation](https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/)
 * [Red Hat Knowledge Base](https://access.redhat.com/knowledgebase/)
 * [Red Hat Customer Portal](https://access.redhat.com/)
+* [Linux Admin Troubleshooting video](https://www.youtube.com/watch?v=KZ8oEh3dTfw)
 
 ## See Also
 
