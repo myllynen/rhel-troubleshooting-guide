@@ -54,7 +54,7 @@ Tools and services which can help you to find known issues include:
 Initially it is a good idea to quickly verify that the system (virtual)
 hardware setup is as expected: the number of processors, the amount of
 memory, the disk and file system layout, and the network devices. Use
-the following commands to see how the system basics looks like:
+the following commands to see what the system basics looks like:
 
 ```
 lscpu
@@ -113,7 +113,7 @@ When using SELinux in Enforcing mode (as it
 possible SELinux denials with interpretations:
 
 ```
-ausearch -m AVC -i 
+ausearch -m AVC -i
 ```
 
 Additional SELinux related information can be found with the commands
@@ -161,18 +161,18 @@ issues in a lower-level application may impact a higher-level one.
 
 For example, in case an application is heavily relying on LDAP, if the
 LDAP server is providing responses to queries from the command line as
-expected and the logs for the LDAP server do not contain anything unsual
-then the higher level application using LDAP is probably having internal
-issues and the LDAP server itself is working properly. On the other hand
-if the LDAP server does not reply even to basic queries from the command
-line or its logs contain errors and warnings then those issues should be
-sorted out first before investigating the application relying on LDAP
-further.
+expected and the logs for the LDAP server do not contain anything
+unusual then the higher level application using LDAP is probably having
+internal issues and the LDAP server itself is working properly. On the
+other hand if the LDAP server does not reply even to basic queries from
+the command line or its logs contain errors and warnings then those
+issues should be sorted out first before investigating the application
+relying on LDAP further.
 
 ### General Application Troubleshooting Tips
 
-First investigate if there has been any recent changes or updates to the
-installed software:
+First investigate if there have been any recent changes or updates to
+the installed software:
 
 ```
 rpm -qa --last | less
@@ -245,14 +245,14 @@ for real network related troubleshooting it is of course better to use
 ## Checking Recent Changes in System
 
 Often a recently made change may be related to the issue at hand. In
-case a centralized configuratiom management system (such as
+case a centralized configuration management system (such as
 [Ansible Automation Platform](https://access.redhat.com/products/red-hat-ansible-automation-platform/))
 is in use, recent updates to its content should be reviewed. The details
 of configuration management systems are out of scope for this guide but
 it should be kept in mind that local configuration changes may be
 periodically overwritten by such centralized tools.
 
-Sometimes it is useful to see if someone has recently logged into to a
+Sometimes it is useful to see if someone has recently logged into a
 system and review possible changes by them. To see users recently logged
 into the system and the commands they have run:
 
@@ -515,7 +515,7 @@ There are few generic Red Hat Knowledge Base articles about this, see
 for instance
 [https://access.redhat.com/articles/371803](https://access.redhat.com/articles/371803).
 
-If everything else has really been rules out, Red Hat Support can help
+If everything else has really been ruled out, Red Hat Support can help
 to investigate the issue further. In such case a kernel crash dump
 (vmcore) is a must-have. For instructions how to crash the kernel
 automatically when experiencing a soft lockup, please see
@@ -610,7 +610,7 @@ for more details on sosreports.
 
 ### Collecting Detailed Process Level Information
 
-For many of issues sosreports provide a sufficient starting point and is
+For many issues sosreports provide a sufficient starting point and is
 sometimes everything that is needed for troubleshooting by a support
 team. However, in some cases detailed process level information is
 needed, most typically this means a process core dump and/or process
@@ -625,7 +625,7 @@ information proactively.
 Please note that application core dumps may contain sensitive data
 structures and information subject to privacy regulations. Also note
 that the [pstack(1)](https://www.mankier.com/1/pstack) and
-[gcore(1)](https://man7.org/linux/man-pages/man1/gcore.1.html) utitilies
+[gcore(1)](https://man7.org/linux/man-pages/man1/gcore.1.html) utilities
 used for this are part of the _gdb_ (GNU Debugger) package which may or
 may not be suitable for installation on production systems. The details
 of these caveats and data sensitivity issues are outside of the scope
@@ -652,7 +652,7 @@ strace -ff -s 1024 -p PID > strace-output.txt 2>&1
 ```
 
 For any crashed process a core dump is available in case core dumps are
-enabled (but they are is also subject to the same data sensitivity
+enabled (but they are also subject to the same data sensitivity
 considerations as mentioned earlier). See
 [https://access.redhat.com/solutions/56021](https://access.redhat.com/solutions/56021)
 on how to collect core dumps.
